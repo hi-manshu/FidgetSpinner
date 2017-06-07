@@ -53,6 +53,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 import xyz.himanshusingh.fidgetspinner.Custom.CustomFontTextView;
@@ -63,10 +64,6 @@ import xyz.himanshusingh.fidgetspinner.utils.Utils;
 import static android.R.attr.data;
 
 public class Game extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    private static final int RC_SIGN_IN = 0;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private GoogleApiClient mGoogleApiClient;
     String MAXIMUM_VALUE = "MAXIMUM_VALUE",
             LAST_VALUE = "LAST_VALUE",
             TARGET = "TARGET";
@@ -551,7 +548,7 @@ public class Game extends AppCompatActivity {
         spinnerList.add(R.drawable.spinner_blue_1);
         spinnerList.add(R.drawable.spinner_blue_2);
         spinnerList.add(R.drawable.spinner_red_1);
-        spinnerList.add(R.drawable.spinner_red_2);
+//        spinnerList.add(R.drawable.spinner_red_2);
         spinnerList.add(R.drawable.spinner_red_4);
         spinnerList.add(R.drawable.spinner_red_5);
         spinnerList.add(R.drawable.spinner_gold);
@@ -563,15 +560,17 @@ public class Game extends AppCompatActivity {
         dialog.setCancelable(true);
         dialog.show();
 
-        GridView gridView = (GridView) dialog.findViewById(R.id.spinnerGrid);
+        final GridView gridView = (GridView) dialog.findViewById(R.id.spinnerGrid);
         gridView.setAdapter(new SpinnerGridAdapter(context, spinnerList));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                setImage(spinnerList.get(position), true);
+                setImage(spinnerList.get(position),true);
                 btnSelect.setImageResource(spinnerList.get(position));
                 dialog.dismiss();
             }
         });
     }
+
+
 }
