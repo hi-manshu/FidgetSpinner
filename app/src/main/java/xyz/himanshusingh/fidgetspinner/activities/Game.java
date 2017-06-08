@@ -162,6 +162,7 @@ public class Game extends AppCompatActivity {
             public void onClick(View v) {
                 selectSpinner();
 
+
             }
         });
         share.setOnClickListener(new View.OnClickListener() {
