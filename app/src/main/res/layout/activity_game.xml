@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     tools:context=".activities.Game"
+    android:paddingTop="30dp"
     tools:ignore="RtlHardcoded">
 
     <android.support.v7.widget.CardView
@@ -28,7 +29,7 @@
                 android:gravity="center|center_horizontal"
                 android:text="MAX:0"
                 android:textColor="#15b9ee"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:textStyle="bold" />
 
             <ImageView
