@@ -137,7 +137,7 @@ public class Game extends AppCompatActivity {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.setPackage("com.whatsapp");
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Hi, my maximum score is " + String.valueOf(maximumValue) + ". Challenge me on Fidget Spinner. Download it from " +"https://play.google.com/store/apps/details?id=xyz.himanshusingh.fidgetspinner to challange me.");
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
             }
