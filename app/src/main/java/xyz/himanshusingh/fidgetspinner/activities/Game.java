@@ -4,10 +4,13 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -37,25 +40,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
-
-import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
 import xyz.himanshusingh.fidgetspinner.Custom.CustomFontTextView;
 import xyz.himanshusingh.fidgetspinner.R;
@@ -65,6 +53,11 @@ import xyz.himanshusingh.fidgetspinner.utils.Utils;
 import static android.R.attr.data;
 
 public class Game extends AppCompatActivity {
+    private FirebaseAuth auth;
+    private static final int RC_SIGN_IN = 200;
+    private static final String PATH_TOS = "";
+
+
     String MAXIMUM_VALUE = "MAXIMUM_VALUE",
             LAST_VALUE = "LAST_VALUE",
             TARGET = "TARGET";
@@ -78,7 +71,7 @@ public class Game extends AppCompatActivity {
     SharedPreferences.Editor gameSettingsEditor;
     private static Bitmap imageOriginal, imageScaled;
     private static Matrix matrix;
-    private ImageView btnSelect;
+    private ImageView btnSelect, pen;
     private ImageView dialer, profile;
     private int dialerHeight, dialerWidth;
 
@@ -106,6 +99,10 @@ public class Game extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        auth = FirebaseAuth.getInstance();
+        if (isUserLogin()) {
+            loginUser();
+        }
         setContentView(R.layout.activity_game);
 
         context = this;
@@ -115,12 +112,48 @@ public class Game extends AppCompatActivity {
 
 //        soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
         share = (ImageView) findViewById(R.id.share);
+        pen = (ImageView) findViewById(R.id.pen);
         container = (RelativeLayout) findViewById(R.id.container);
         dialer = (ImageView) findViewById(R.id.fidgetSpinner);
         profile = (ImageView) findViewById(R.id.profile);
         tMax = (CustomFontTextView) findViewById(R.id.maximumScore);
         tTarget = (CustomFontTextView) findViewById(R.id.targetValue);
         tCurrent = (CustomFontTextView) findViewById(R.id.currentValue);
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginMech();
+            }
+        });
+        pen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               if (isUserLogin()){
+                   loginMech();
+
+               }else{
+                    Intent myIntent = new Intent(Intent.ACTION_SEND);
+                    PackageManager pm = getPackageManager();
+                    Intent tempIntent = new Intent(Intent.ACTION_SEND);
+                    tempIntent.setType("*/*");
+                    List<ResolveInfo> resInfo = pm.queryIntentActivities(tempIntent, 0);
+                    for (int i = 0; i < resInfo.size(); i++) {
+                        ResolveInfo ri = resInfo.get(i);
+                        if (ri.activityInfo.packageName.contains("android.gm")) {
+                            myIntent.setComponent(new ComponentName(ri.activityInfo.packageName, ri.activityInfo.name));
+                            myIntent.setAction(Intent.ACTION_SEND);
+                            myIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"hello2himanshusingh@gmail.com"});
+                            myIntent.setType("message/rfc822");
+                            myIntent.putExtra(Intent.EXTRA_TEXT, "Hey, I am " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                            myIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback/Suggestion about App");
+                        }
+                    }
+                    startActivity(myIntent);
+                }
+
+            }
+        });
 
 
         btnSelect = (ImageView) findViewById(R.id.btnSelect);
@@ -137,7 +170,7 @@ public class Game extends AppCompatActivity {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.setPackage("com.whatsapp");
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "Hi, my maximum score is " + String.valueOf(maximumValue) + ". Challenge me on Fidget Spinner. Download it from " +"https://play.google.com/store/apps/details?id=xyz.himanshusingh.fidgetspinner to challange me.");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Hi, my maximum score is " + String.valueOf(maximumValue) + ". Challenge me on Fidget Spinner. Download it from " + "https://play.google.com/store/apps/details?id=xyz.himanshusingh.fidgetspinner to challange me.");
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
             }
@@ -174,6 +207,41 @@ public class Game extends AppCompatActivity {
 
     }
 
+    private void loginMech() {
+        startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()
+                .setTosUrl(PATH_TOS)
+                .build(), RC_SIGN_IN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == RESULT_OK) {
+                loginUser();
+            }
+            if (resultCode == RESULT_CANCELED) {
+                displayMessage("Failed");
+            }
+            return;
+        }
+        displayMessage("Loggedin");
+    }
+
+    private boolean isUserLogin() {
+        if (auth.getCurrentUser() == null) {
+            return true;
+        }
+        return false;
+    }
+
+    private void loginUser() {
+
+    }
+
+    private void displayMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
 
     public void setImage(int imageId, boolean isChanging) {
         // load the image only once
