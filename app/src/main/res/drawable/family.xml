@@ -15,7 +15,7 @@
                     android:translateY="6.000000">
                 <path
                     android:name="Shape"
-                    android:fillColor="#f2592f"
+                    android:fillColor="#15b9ee"
                     android:fillType="evenOdd"
                     android:strokeAlpha="0.5"
                     android:strokeWidth="1"

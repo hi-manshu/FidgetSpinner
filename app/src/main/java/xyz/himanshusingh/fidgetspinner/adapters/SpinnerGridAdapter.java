@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -49,6 +50,7 @@ public class SpinnerGridAdapter extends BaseAdapter {
         View v = LayoutInflater.from(context).inflate(R.layout.spinner_item, parent, false);
         ImageView imageView = (ImageView) v.findViewById(R.id.fidgetSpinner);
         imageView.setImageResource(spinnerIds.get(position));
+
         return v;
     }
 }

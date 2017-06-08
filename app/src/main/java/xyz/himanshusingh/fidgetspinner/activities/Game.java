@@ -33,6 +33,7 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,9 +68,9 @@ public class Game extends AppCompatActivity {
     String MAXIMUM_VALUE = "MAXIMUM_VALUE",
             LAST_VALUE = "LAST_VALUE",
             TARGET = "TARGET";
-
+    ImageView share;
     CustomFontTextView tMax, tTarget, tCurrent;
-    FrameLayout container;
+    RelativeLayout container;
     AppCompatButton btnHowToPlay;
     int numberOfRotations = 0, target = 100, maximumValue = 0;
     Context context;
@@ -113,8 +114,8 @@ public class Game extends AppCompatActivity {
         gameSettingsEditor.apply();
 
 //        soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
-
-        container = (FrameLayout) findViewById(R.id.container);
+        share = (ImageView) findViewById(R.id.share);
+        container = (RelativeLayout) findViewById(R.id.container);
         dialer = (ImageView) findViewById(R.id.fidgetSpinner);
         profile = (ImageView) findViewById(R.id.profile);
         tMax = (CustomFontTextView) findViewById(R.id.maximumScore);
@@ -130,7 +131,17 @@ public class Game extends AppCompatActivity {
 
             }
         });
-
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.setPackage("com.whatsapp");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+            }
+        });
         setImage(R.drawable.spinner_blue, false);
         dialer.setOnTouchListener(new MyOnTouchListener());
         dialer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -548,7 +559,7 @@ public class Game extends AppCompatActivity {
         spinnerList.add(R.drawable.spinner_blue_1);
         spinnerList.add(R.drawable.spinner_blue_2);
         spinnerList.add(R.drawable.spinner_red_1);
-//        spinnerList.add(R.drawable.spinner_red_2);
+        spinnerList.add(R.drawable.spinner_red_2);
         spinnerList.add(R.drawable.spinner_red_4);
         spinnerList.add(R.drawable.spinner_red_5);
         spinnerList.add(R.drawable.spinner_gold);
@@ -565,7 +576,7 @@ public class Game extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                setImage(spinnerList.get(position),true);
+                setImage(spinnerList.get(position), true);
                 btnSelect.setImageResource(spinnerList.get(position));
                 dialog.dismiss();
             }
