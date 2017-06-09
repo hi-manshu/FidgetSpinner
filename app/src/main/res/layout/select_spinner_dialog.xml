@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Select a spinner"
-            android:textColor="#f2592f"
+            android:textColor="#283d65"
             android:textSize="20sp"
             android:textStyle="bold" />
 

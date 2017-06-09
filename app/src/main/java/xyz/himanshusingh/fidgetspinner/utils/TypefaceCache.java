@@ -12,7 +12,7 @@ import java.util.Hashtable;
  * See the link for more details about the memory leak issue.
  * (https://code.google.com/p/android/issues/detail?id=9904)
  *
- * @author hnakagawa
+ * @author @himanshu
  */
 /* package */ final class TypefaceCache {
 	private static TypefaceCache sInstance;

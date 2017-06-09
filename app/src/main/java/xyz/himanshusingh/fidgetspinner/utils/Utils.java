@@ -1,7 +1,7 @@
 package xyz.himanshusingh.fidgetspinner.utils;
 
 /**
- * Created by @GeekNat on 5/4/17.
+ * Created by @@himanshu on 5/4/17.
  */
 
 public class Utils {

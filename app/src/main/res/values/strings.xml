@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Spinify</string>
+    <string name="app_name">Fidget Spinner</string>
 
     <string name="title_activity_game">" "</string>
     <string name="dummy_button">Dummy Button</string>

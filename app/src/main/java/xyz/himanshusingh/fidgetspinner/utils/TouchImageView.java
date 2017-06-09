@@ -1,15 +1,3 @@
-/*
- * TouchImageView.java
- * By: Michael Ortiz
- * Updated By: Patrick Lackemacher
- * Updated By: Babay88
- * Updated By: @ipsilondev
- * Updated By: hank-cp
- * Updated By: singpolyma
- * -------------------
- * Extends Android ImageView to include pinch zooming, panning, fling and double tap zoom.
- */
-
 package xyz.himanshusingh.fidgetspinner.utils;
 
 import android.annotation.TargetApi;
@@ -52,65 +40,30 @@ public class TouchImageView extends ImageView {
     private int sizeOfMagnifier = 200;
 
     private static final String DEBUG = "DEBUG";
-
-    //
-    // SuperMin and SuperMax multipliers. Determine how much the image can be
-    // zoomed below or above the zoom boundaries, before animating back to the
-    // min/max zoom boundary.
-    //
     private static final float SUPER_MIN_MULTIPLIER = .75f;
     private static final float SUPER_MAX_MULTIPLIER = 1.25f;
-
-    //
-    // Scale of image ranges from minScale to maxScale, where minScale == 1
-    // when the image is stretched to fit view.
-    //
     private float normalizedScale;
-
-    //
-    // Matrix applied to image. MSCALE_X and MSCALE_Y should always be equal.
-    // MTRANS_X and MTRANS_Y are the other values used. prevMatrix is the matrix
-    // saved prior to the screen rotating.
-    //
-    private Matrix matrix, prevMatrix;
-
+ private Matrix matrix, prevMatrix;
     private static enum State {NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM}
-
-    ;
     private State state;
-
     private float minScale;
     private float maxScale;
     private float superMinScale;
     private float superMaxScale;
     private float[] m;
-
     private Context context;
     private Fling fling;
-
     private ScaleType mScaleType;
-
     private boolean imageRenderedAtLeastOnce;
     private boolean onDrawReady;
-
     private ZoomVariables delayedZoomVariables;
-
-    //
-    // Size of view and previous view size (ie before rotation)
-    //
     private int viewWidth, viewHeight, prevViewWidth, prevViewHeight;
-
-    //
-    // Size of image when it is stretched to fit view. Before and After rotation.
-    //
     private float matchViewWidth, matchViewHeight, prevMatchViewWidth, prevMatchViewHeight;
-
     private ScaleGestureDetector mScaleDetector;
     private GestureDetector mGestureDetector;
     private GestureDetector.OnDoubleTapListener doubleTapListener = null;
     private OnTouchListener userTouchListener = null;
     private OnTouchImageViewListener touchImageViewListener = null;
-
     public TouchImageView(Context context) {
         super(context);
         init();
@@ -128,9 +81,6 @@ public class TouchImageView extends ImageView {
         init();
         sharedConstructing(context);
     }
-
-
-
     private void sharedConstructing(Context context) {
         super.setClickable(true);
         this.context = context;

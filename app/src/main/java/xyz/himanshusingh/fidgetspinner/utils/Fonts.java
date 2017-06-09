@@ -5,7 +5,7 @@ import android.graphics.Typeface;
 import android.widget.TextView;
 
 /**
- * Created by Geek Nat on 5/16/2016.
+ * Created by @himanshu on 5/16/2016.
  */
 public class Fonts {
 

@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
- * @author KeishinYokomaku
+ * @author @himanshu
  */
 final class DialogUtils {
 	public static <D extends Dialog> void setTypeface(TypefaceHelper helper, D dialog, String typefaceName, int style) {
@@ -18,7 +18,6 @@ final class DialogUtils {
 			setTypeface(helper, (AlertDialog) dialog, typefaceName, style);
 		}
 	}
-
 	private static void setTypeface(TypefaceHelper helper, AlertDialog alertDialog, String typefaceName, int style) {
 		Button positive = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
 		Button negative = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
