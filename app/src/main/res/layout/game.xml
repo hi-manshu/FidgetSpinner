@@ -113,20 +113,20 @@
 
                 <ImageView
                     android:id="@+id/fidgetSpinner"
-                    android:layout_width="350dp"
-                    android:layout_height="350dp"
+                    android:layout_width="400dp"
+                    android:layout_height="400dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/app_name"
                     android:scaleType="matrix"
                     android:src="@drawable/spinner_blue" />
 
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/app_name"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/knob" />
+                <!--<ImageView-->
+                    <!--android:layout_width="60dp"-->
+                    <!--android:layout_height="60dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:contentDescription="@string/app_name"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:src="@drawable/knob" />-->
 
             </FrameLayout>
 
