@@ -155,7 +155,7 @@ public class Game extends AppCompatActivity {
                 startActivity(sendIntent);
             }
         });
-        setImage(R.drawable.spinner_blue, false);
+        setImage(R.drawable.batman, false);
         dialer.setOnTouchListener(new MyOnTouchListener());
         dialer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 

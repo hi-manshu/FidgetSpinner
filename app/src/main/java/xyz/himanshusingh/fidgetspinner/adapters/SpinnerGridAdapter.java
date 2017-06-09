@@ -46,7 +46,6 @@ public class SpinnerGridAdapter extends BaseAdapter {
         imageView.setImageResource(spinnerIds.get(position));
         return v;
 
-glide
 //        final ImageView myImageView;
 //        if (convertView == null) {
 //            myImageView = (ImageView) LayoutInflater.from(context).inflate(R.layout.spinner_item, parent, false);
