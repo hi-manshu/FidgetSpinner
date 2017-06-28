@@ -82,12 +82,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        auth = FirebaseAuth.getInstance();
-//        if (isUserLogin()) {
-//            loginUser();
-//        }
         setContentView(R.layout.game);
-
         context = this;
         change = (CardView) findViewById(R.id.cardChange);
         gameSettings = getSharedPreferences("gameSettings", MODE_PRIVATE);
@@ -364,7 +359,7 @@ public class GameActivity extends AppCompatActivity {
 
                 float currentRotation = view.getRotation();
                 int totalRotations = (int) Math.floor(Utils.getUnsignedInt((int) endDegree) / 360);
-                numberOfRotations = (int) Math.floor(Utils.getUnsignedInt((int) currentRotation) / 360);
+                numberOfRotations = (int) Math.floor(Utils.getUnsignedInt((int) currentRotation) / 30);
                 tCurrent.setText(String.valueOf(numberOfRotations));
             }
 
@@ -382,7 +377,7 @@ public class GameActivity extends AppCompatActivity {
                     gameSettingsEditor.apply();
                 }
                 if (numberOfRotations > gameSettings.getInt(LAST_VALUE, 0)) {
-                    target = numberOfRotations + 20;
+                    target = numberOfRotations + 100;
                     gameSettingsEditor.putInt(LAST_VALUE, numberOfRotations);
                     gameSettingsEditor.putInt(TARGET, target);
                     gameSettingsEditor.apply();
