@@ -4,13 +4,10 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -20,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.CardView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +25,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -36,7 +35,6 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import xyz.himanshusingh.fidgetspinner.Custom.CustomFontTextView;
 import xyz.himanshusingh.fidgetspinner.R;
@@ -50,9 +48,11 @@ public class GameActivity extends AppCompatActivity {
     String MAXIMUM_VALUE = "MAXIMUM_VALUE",
             LAST_VALUE = "LAST_VALUE",
             TARGET = "TARGET";
-//    ImageView share;
-    CustomFontTextView  tTarget, tCurrent;
-    RelativeLayout container;
+    //    ImageView share;
+    CardView change;
+
+    CustomFontTextView tTarget, tCurrent, maxScore;
+    FrameLayout container;
     AppCompatButton btnHowToPlay;
     int numberOfRotations = 0, target = 100, maximumValue = 0;
     Context context;
@@ -60,8 +60,8 @@ public class GameActivity extends AppCompatActivity {
     SharedPreferences.Editor gameSettingsEditor;
     private static Bitmap imageOriginal, imageScaled;
     private static Matrix matrix;
-//    private ImageView  pen;
-    private ImageView dialer, profile;
+    //    private ImageView  pen;
+    private ImageView dialer, profile,share;
     private int dialerHeight, dialerWidth;
 
     private GestureDetector detector;
@@ -82,18 +82,22 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        auth = FirebaseAuth.getInstance();
-        if (isUserLogin()) {
-            loginUser();
-        }
+//        auth = FirebaseAuth.getInstance();
+//        if (isUserLogin()) {
+//            loginUser();
+//        }
         setContentView(R.layout.game);
+
         context = this;
+        change = (CardView) findViewById(R.id.cardChange);
         gameSettings = getSharedPreferences("gameSettings", MODE_PRIVATE);
         gameSettingsEditor = gameSettings.edit();
         gameSettingsEditor.apply();
-        container = (RelativeLayout) findViewById(R.id.container);
+        container = (FrameLayout) findViewById(R.id.container);
         dialer = (ImageView) findViewById(R.id.fidgetSpinner);
+        maxScore = (CustomFontTextView) findViewById(R.id.maximumScore);
         profile = (ImageView) findViewById(R.id.profile);
+        share = (ImageView) findViewById(R.id.share);
         tTarget = (CustomFontTextView) findViewById(R.id.targetValue);
         tCurrent = (CustomFontTextView) findViewById(R.id.currentValue);
         profile.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +106,23 @@ public class GameActivity extends AppCompatActivity {
                 loginMech();
             }
         });
-
+        change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectSpinner();
+            }
+        });
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.setPackage("com.whatsapp");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Hi, my maximum score is " + String.valueOf(maximumValue) + ". Challenge me on Fidget Spinner. Download it from " + "https://play.google.com/store/apps/details?id=xyz.himanshusingh.fidgetspinner to challange me.");
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+            }
+        });
         setImage(R.drawable.batman, false);
         dialer.setOnTouchListener(new GameActivity.MyOnTouchListener());
         dialer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -126,6 +146,7 @@ public class GameActivity extends AppCompatActivity {
         updateViews();
         changeTarget();
     }
+
 
     private void loginMech() {
         startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()
@@ -383,6 +404,8 @@ public class GameActivity extends AppCompatActivity {
 
     private void updateViews() {
         maximumValue = gameSettings.getInt(MAXIMUM_VALUE, 0);
+        maxScore.setText(String.valueOf(maximumValue));
+
     }
 
     private void changeTarget() {
@@ -431,16 +454,16 @@ public class GameActivity extends AppCompatActivity {
             rotationAnimator.cancel();
         }
         final ArrayList<Integer> spinnerList = new ArrayList<>();
+        spinnerList.add(R.drawable.batman);
         spinnerList.add(R.drawable.spinner);
-        spinnerList.add(R.drawable.spinner_blue);
-        spinnerList.add(R.drawable.spinner_blue_1);
-        spinnerList.add(R.drawable.spinner_blue_2);
-        spinnerList.add(R.drawable.spinner_red_1);
+        spinnerList.add(R.drawable.cap);
+        spinnerList.add(R.drawable.starspinner);
+        spinnerList.add(R.drawable.techninja);
         spinnerList.add(R.drawable.spinner_red_2);
         spinnerList.add(R.drawable.spinner_red_4);
         spinnerList.add(R.drawable.spinner_gold);
         spinnerList.add(R.drawable.spinner_green);
-        final Dialog dialog = new Dialog(context);
+        final Dialog dialog =   new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.select_spinner_dialog);
         dialog.setCancelable(true);

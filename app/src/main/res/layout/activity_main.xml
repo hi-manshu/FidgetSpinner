@@ -23,7 +23,7 @@
             android:layout_gravity=""
             android:gravity="center_horizontal"
             android:text="Fidget Spinner"
-            android:textColor="#283d65"
+            android:textColor="#9933ff"
             android:textSize="16dp"
             android:textStyle="bold" />
 
