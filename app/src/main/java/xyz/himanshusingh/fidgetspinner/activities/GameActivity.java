@@ -50,7 +50,7 @@ public class GameActivity extends AppCompatActivity {
             TARGET = "TARGET";
     //    ImageView share;
     CardView change;
-
+    int defaultSpinner;
     CustomFontTextView tTarget, tCurrent, maxScore;
     FrameLayout container;
     AppCompatButton btnHowToPlay;
@@ -61,7 +61,7 @@ public class GameActivity extends AppCompatActivity {
     private static Bitmap imageOriginal, imageScaled;
     private static Matrix matrix;
     //    private ImageView  pen;
-    private ImageView dialer, profile,share;
+    private ImageView dialer, profile, share;
     private int dialerHeight, dialerWidth;
 
     private GestureDetector detector;
@@ -118,7 +118,11 @@ public class GameActivity extends AppCompatActivity {
                 startActivity(sendIntent);
             }
         });
-        setImage(R.drawable.batman, false);
+
+
+            setImage(R.drawable.batman, false);
+
+
         dialer.setOnTouchListener(new GameActivity.MyOnTouchListener());
         dialer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -359,7 +363,7 @@ public class GameActivity extends AppCompatActivity {
 
                 float currentRotation = view.getRotation();
                 int totalRotations = (int) Math.floor(Utils.getUnsignedInt((int) endDegree) / 360);
-                numberOfRotations = (int) Math.floor(Utils.getUnsignedInt((int) currentRotation) / 30);
+                numberOfRotations = (int) Math.floor(Utils.getUnsignedInt((int) currentRotation));
                 tCurrent.setText(String.valueOf(numberOfRotations));
             }
 
@@ -458,7 +462,7 @@ public class GameActivity extends AppCompatActivity {
         spinnerList.add(R.drawable.spinner_red_4);
         spinnerList.add(R.drawable.spinner_gold);
         spinnerList.add(R.drawable.spinner_green);
-        final Dialog dialog =   new Dialog(context);
+        final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.select_spinner_dialog);
         dialog.setCancelable(true);
@@ -469,6 +473,9 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 setImage(spinnerList.get(position), true);
+                defaultSpinner = spinnerList.get(position);
+                gameSettingsEditor.putInt("spinner", defaultSpinner);
+                gameSettingsEditor.commit();
                 dialog.dismiss();
             }
         });
