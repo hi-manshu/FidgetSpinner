@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:airbnb="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark"
+    tools:context=".activities.view.GoogleFitConnect">
+
+    <xyz.himanshusingh.fidgetspinner.Custom.CustomFontTextView
+        android:id="@+id/customFontTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="80dp"
+        android:text="@string/welcome"
+        android:textColor="@color/blue_left"
+        android:textSize="@dimen/_30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <xyz.himanshusingh.fidgetspinner.Custom.CustomFontTextView
+        android:id="@+id/customFontTextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/customFontTextView"
+        app:layout_constraintTop_toBottomOf="@+id/customFontTextView"
+        tools:text="Himanshu Singh" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <xyz.himanshusingh.fidgetspinner.Custom.CustomFontTextView
+        android:id="@+id/customFontTextView3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/to_use_go_please_connect_with_fit_and_let_us_serve_you_beter"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        airbnb:layout_constraintBottom_toBottomOf="parent"
+        airbnb:layout_constraintEnd_toEndOf="parent"
+        airbnb:layout_constraintStart_toStartOf="parent"
+        airbnb:layout_constraintTop_toTopOf="@+id/guideline80" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        airbnb:layout_constraintBottom_toTopOf="@+id/customButton"
+        airbnb:layout_constraintEnd_toEndOf="parent"
+        airbnb:layout_constraintHorizontal_bias="0.0"
+        airbnb:layout_constraintStart_toStartOf="parent"
+        airbnb:layout_constraintTop_toBottomOf="@+id/customFontTextView2"
+        airbnb:layout_constraintVertical_bias="0.392"
+        airbnb:lottie_autoPlay="true"
+        airbnb:lottie_fileName="walk.json"
+        airbnb:lottie_loop="true" />
+
+    <xyz.himanshusingh.fidgetspinner.Custom.CustomButton
+        android:id="@+id/customButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:drawablePadding="@dimen/_15dp"
+        android:drawableStart="@drawable/ic_search"
+        android:paddingLeft="@dimen/_30dp"
+        android:paddingRight="@dimen/_30dp"
+        android:text="@string/connect_with_google_fit"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/guideline80"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline80"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <ImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_right_arrow"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.246"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.975"
+        airbnb:layout_constraintBottom_toTopOf="@+id/customFontTextView"
+      />
+</android.support.constraint.ConstraintLayout>

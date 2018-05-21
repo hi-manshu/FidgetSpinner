@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fidget Spinner</string>
+    <string name="app_name">Go</string>
 
     <string name="title_activity_game">" "</string>
     <string name="dummy_button">Dummy Button</string>
@@ -7,4 +7,9 @@
     <string name="custom_font">fonts/font.ttf</string>
     <string name="how_to_play">How to play</string>
     <string name="get_a_real_one">Get a Real One</string>
+    <string name="login_with_google">Login With Google</string>
+    <string name="let_s_move_on_the_go">Let\'s Move on the Go</string>
+    <string name="welcome">Welcome,</string>
+    <string name="connect_with_google_fit">Connect with Google Fit</string>
+    <string name="to_use_go_please_connect_with_fit_and_let_us_serve_you_beter">To use Go, Please connect with Fit and let us serve you better</string>
 </resources>

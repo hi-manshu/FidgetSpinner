@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,19 +64,13 @@ public class GameActivity extends AppCompatActivity {
     //    private ImageView  pen;
     private ImageView dialer, profile, share;
     private int dialerHeight, dialerWidth;
-
     private GestureDetector detector;
     // needed for detecting the inversed rotations
     private boolean[] quadrantTouched;
-
     private boolean allowRotating;
-
     private Vibrator mVibrator;
-
     private String TAG = "SPINIFY";
-
     private ObjectAnimator rotationAnimator;
-
     int DURATION_FOR_ONE_ROTATION = 300;
     boolean canAnimate = true;
 
@@ -118,11 +113,7 @@ public class GameActivity extends AppCompatActivity {
                 startActivity(sendIntent);
             }
         });
-
-
-            setImage(R.drawable.batman, false);
-
-
+        setImage(R.drawable.batman, false);
         dialer.setOnTouchListener(new GameActivity.MyOnTouchListener());
         dialer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -149,36 +140,9 @@ public class GameActivity extends AppCompatActivity {
 
     private void loginMech() {
         startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder()
+                .setIsSmartLockEnabled(true)
                 .setTosUrl(PATH_TOS)
                 .build(), RC_SIGN_IN);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            if (resultCode == RESULT_OK) {
-                loginUser();
-            }
-            if (resultCode == RESULT_CANCELED) {
-            }
-            return;
-        }
-    }
-
-    private boolean isUserLogin() {
-        if (auth.getCurrentUser() == null) {
-            return true;
-        }
-        return false;
-    }
-
-    private void loginUser() {
-
-    }
-
-    private void displayMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     public void setImage(int imageId, boolean isChanging) {
@@ -311,29 +275,12 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    float getDistance(float startX, float startY, MotionEvent ev) {
-        float distanceSum = 0;
-        final int historySize = ev.getHistorySize();
-        for (int h = 0; h < historySize; h++) {
-            float hx = ev.getHistoricalX(0, h);
-            float hy = ev.getHistoricalY(0, h);
-            float dx = (hx - startX);
-            float dy = (hy - startY);
-            distanceSum += Math.sqrt(dx * dx + dy * dy);
-            startX = hx;
-            startY = hy;
-        }
-        float dx = (ev.getX(0) - startX);
-        float dy = (ev.getY(0) - startY);
-        distanceSum += Math.sqrt(dx * dx + dy * dy);
-        return distanceSum;
-    }
 
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(context)
-                .setTitle("Exiting...")
-                .setMessage("Are you sure you want to exit right now?")
+                .setTitle("EXIT")
+                .setMessage("Are you sure you want to Exit right now?")
                 .setPositiveButton("NO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -362,8 +309,8 @@ public class GameActivity extends AppCompatActivity {
             public void onAnimationUpdate(ValueAnimator animation) {
 
                 float currentRotation = view.getRotation();
-                int totalRotations = (int) Math.floor(Utils.getUnsignedInt((int) endDegree) / 360);
-                numberOfRotations = (int) Math.floor(Utils.getUnsignedInt((int) currentRotation));
+//                int totalRotations = (int) Math.floor(Utils.getUnsignedInt((int) endDegree) /30);
+                numberOfRotations = (int) Math.floor(Utils.getUnsignedInt((int) currentRotation) / 30);
                 tCurrent.setText(String.valueOf(numberOfRotations));
             }
 
@@ -412,13 +359,6 @@ public class GameActivity extends AppCompatActivity {
         tTarget.setText(String.valueOf(target));
     }
 
-    private synchronized void vibrate(long duration) {
-        if (mVibrator == null) {
-            mVibrator = (Vibrator)
-                    getSystemService(Context.VIBRATOR_SERVICE);
-        }
-        mVibrator.vibrate(duration);
-    }
 
     @Override
     protected void onPause() {
@@ -437,7 +377,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onResume() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (rotationAnimator != null && rotationAnimator.isPaused()) {
-//                soundPool.resume(soundId);
                 rotationAnimator.resume();
             }
         } else {

@@ -8,18 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-
-
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
-
 import xyz.himanshusingh.fidgetspinner.R;
-
 /**
  * Created by @himanshu on 5/5/17.
  */
-
 public class SpinnerGridAdapter extends BaseAdapter {
     Context context;
     ArrayList<Integer> spinnerIds;
@@ -45,24 +38,6 @@ public class SpinnerGridAdapter extends BaseAdapter {
         ImageView imageView = (ImageView) v.findViewById(R.id.fidgetSpinner);
         imageView.setImageResource(spinnerIds.get(position));
         return v;
-
-//        final ImageView myImageView;
-//        if (convertView == null) {
-//            myImageView = (ImageView) LayoutInflater.from(context).inflate(R.layout.spinner_item, parent, false);
-//        } else {
-//            myImageView = (ImageView) convertView;
-//        }
-//
-//        int url = spinnerIds.get(position);
-//
-//        Glide
-//                .with(context)
-//                .load(url)
-//                .centerCrop()
-//                .placeholder(R.drawable.fidgetlogo)
-//                .into(myImageView);
-//
-//        return myImageView;
 
     }
 }
