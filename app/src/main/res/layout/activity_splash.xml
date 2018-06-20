@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_dark"
-    tools:context=".activities.view.SplashActivity">
+ >
 
     <ImageView
         android:id="@+id/logo_image"
@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <xyz.himanshusingh.fidgetspinner.Custom.CustomFontTextView
+    <fidgetspinner.himanshusingh.xyz.go.Custom.CustomFontTextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
