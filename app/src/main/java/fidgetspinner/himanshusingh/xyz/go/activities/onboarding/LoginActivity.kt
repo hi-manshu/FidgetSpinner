@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.AuthCredential
+import fidgetspinner.himanshusingh.xyz.go.utility.Constants
 
 
 class LoginActivity : AppCompatActivity() {
@@ -50,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
     @SuppressLint("RestrictedApi")
     private fun loginSetupGoogle() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("643885938529-t85h7n6gd7hc6njq0u18r1osah0bsuc0.apps.googleusercontent.com")
+                .requestIdToken(Constants.LOGIN_KEY)
                 .requestEmail()
                 .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
@@ -60,15 +61,7 @@ class LoginActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
     }
     
-    fun GoogleLoginButton(view: View) {
-        signIn()
-    }
-    
-    public override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = mAuth!!.currentUser
-    }
+    fun GoogleLoginButton(view: View) = signIn()
     
     @SuppressLint("RestrictedApi")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -76,13 +69,9 @@ class LoginActivity : AppCompatActivity() {
         if (requestCode === RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
-                // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account)
             } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                // [START_EXCLUDE]
-                // [END_EXCLUDE]
             }
             
         }
