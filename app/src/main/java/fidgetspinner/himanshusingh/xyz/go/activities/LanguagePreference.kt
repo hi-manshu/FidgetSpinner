@@ -2,9 +2,8 @@ package xyz.himanshusingh.fidgetspinner.activities
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import fidgetspinner.himanshusingh.xyz.go.utility.PreferenceHelper
+import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_language_preference.*
 import xyz.himanshusingh.fidgetspinner.R
 import xyz.himanshusingh.fidgetspinner.activities.onboarding.LoginActivity
