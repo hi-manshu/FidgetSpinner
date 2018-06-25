@@ -15,11 +15,19 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import android.R.attr.data
+import android.app.Activity
 import android.util.Log
 import android.support.design.widget.Snackbar
 import com.google.firebase.auth.AuthResult
 import android.support.annotation.NonNull
+import android.widget.Toast
+import com.google.android.gms.fitness.Fitness
+import com.google.android.gms.fitness.FitnessOptions
+import com.google.android.gms.fitness.data.DataSet
+import com.google.android.gms.fitness.data.DataType
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.GoogleAuthProvider
@@ -29,6 +37,7 @@ import fidgetspinner.himanshusingh.xyz.go.utility.Constants
 
 class LoginActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 9001
+    private val REQUEST_OAUTH_REQUEST_CODE = 0x1001
     
     // [START declare_auth]
     private var mAuth: FirebaseAuth? = null
@@ -75,6 +84,11 @@ class LoginActivity : AppCompatActivity() {
             }
             
         }
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_OAUTH_REQUEST_CODE) {
+                subscribe();
+            }
+        }
     }
     
     private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
@@ -84,8 +98,29 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         val user = mAuth!!.currentUser
+                        Toast.makeText(this,"Success",Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        Toast.makeText(this,"Failur",Toast.LENGTH_SHORT).show()
                     }
                 }
+    }
+    
+    @SuppressLint("RestrictedApi")
+    private fun connectGoogleFit() {
+        val fitnessOptions =
+                FitnessOptions.builder()
+                        .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
+                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
+                        .build()
+        when {
+            !GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions) -> GoogleSignIn.requestPermissions(
+                    this,
+                    REQUEST_OAUTH_REQUEST_CODE,
+                    GoogleSignIn.getLastSignedInAccount(this),
+                    fitnessOptions)
+            else -> subscribe()
+        }
     }
     
     @SuppressLint("RestrictedApi")
@@ -93,5 +128,33 @@ class LoginActivity : AppCompatActivity() {
         val signInIntent = mGoogleSignInClient!!.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
+    
+    @SuppressLint("RestrictedApi")
+    fun subscribe() {
+        // To create a subscription, invoke the Recording API. As soon as the subscription is
+        // active, fitness data will start recording.
+        Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this)!!)
+                .subscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        //successful
+                        Toast.makeText(this,"Success",Toast.LENGTH_SHORT).show()
+                        readData()
+                    }
+                }
+    }
+    
+    @SuppressLint("RestrictedApi")
+    private fun readData() {
+        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this)!!)
+                .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
+                .addOnSuccessListener {
+                    OnSuccessListener<DataSet> { }
+                }
+                .addOnFailureListener {
+                    OnFailureListener {}
+                }
+    }
+    
 }
 
