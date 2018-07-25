@@ -1,12 +1,7 @@
 <resources>
     <string name="app_name">Go</string>
-    <string name="login_with_google">Login With Google</string>
-    <string name="let_s_move_on_the_go">Let\'s Move on the Go</string>
-    <string name="welcome">Welcome,</string>
-    <string name="connect_with_google_fit">Connect with Google Fit</string>
-    <string name="to_use_go_please_connect_with_fit_and_let_us_serve_you_beter">To use Go, Please connect with Fit and let us serve you better</string>
-    <string name="english">English</string>
-    <string name="hindi">हिन्दी</string>
-    <string name="choose_your_language_preference">Choose your language Preference</string>
-    <string name="let_s_go">Let\'s Go</string>
+    <string name="let_us_keep_a_record_for_you">Let us keep a record for you</string>
+    <string name="continue_with_google">Continue With Google</string>
+    <string name="lets_start">Let\'s Start</string>
+    <string name="what_shall_we_call_you">What Shall we call you?</string>
 </resources>
